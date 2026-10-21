@@ -2,62 +2,68 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Torn HQ</title>
 <style>
-:root{--a:#00e5ff;--b:#b44cff;--g:#3dff9a;--r:#ff4d6d;--y:#ffd24d;--m:#8b8fb5}
+:root{--a:#2aa6b8;--b:#5aa84a;--g:#7bd66b;--r:#e0655a;--y:#e8c55a;--m:#b9b5a3;--cr:#efe6c8;--wd:#a8743a}
 *{box-sizing:border-box}
-body{margin:0;color:#e9ebff;font:15px -apple-system,system-ui,sans-serif;background:radial-gradient(900px 500px at 10% -10%,#32106a,transparent 60%),radial-gradient(800px 500px at 100% 0,#06405a,transparent 55%),#07070f;padding:calc(env(safe-area-inset-top) + 10px) 12px 96px;min-height:100vh}
-h1,h2{margin:0}h2{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--a);margin-bottom:10px}
-.m{color:var(--m);font-size:12px}.card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:14px;margin-bottom:12px;backdrop-filter:blur(8px)}
-.logo{font-weight:900;font-size:22px;letter-spacing:.06em}.logo span,h1 span{background:linear-gradient(90deg,var(--a),var(--b));-webkit-background-clip:text;color:transparent}
-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.live{font-size:12px;color:var(--g);font-weight:700}.live.off{color:var(--r)}.live i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--g);margin-right:6px;box-shadow:0 0 0 0 var(--g);animation:p 1.6s infinite}
-@keyframes p{70%{box-shadow:0 0 0 9px transparent}100%{box-shadow:0 0 0 0 transparent}}
-input,select{width:100%;padding:11px;border-radius:10px;border:1px solid rgba(255,255,255,.15);background:rgba(0,0,0,.35);color:#fff;font-size:16px;margin-bottom:8px}
-.btn,.ghost{border:0;border-radius:10px;padding:11px 16px;font-weight:800;font-size:14px}.btn{background:linear-gradient(90deg,var(--a),var(--b));color:#000}.ghost{background:rgba(255,255,255,.1);color:#fff;padding:7px 10px;font-size:12px}
-.row{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.07);font-size:14px}.row:last-child{border:0}
-.big{font-size:30px;font-weight:900;background:linear-gradient(90deg,var(--g),var(--a));-webkit-background-clip:text;color:transparent}
-.timer{font-size:28px;font-weight:900;font-variant-numeric:tabular-nums;color:var(--y);text-shadow:0 0 18px rgba(255,210,77,.4)}
-.bar{height:8px;border-radius:6px;background:rgba(255,255,255,.08);overflow:hidden;margin:3px 0 10px}.bar b{display:block;height:100%;background:linear-gradient(90deg,var(--b),var(--a));border-radius:6px}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.day{background:rgba(0,0,0,.3);border-radius:12px;padding:10px;text-align:center}.day .n{font-size:24px;font-weight:900}
+body{margin:0;color:#f2efe4;font:15px -apple-system,system-ui,sans-serif;background:linear-gradient(#d8d1ba,#c4bda4 60%,#a9a38e) fixed;padding:0 12px 96px;min-height:100vh}
+body::before{content:"";position:fixed;left:0;right:0;bottom:0;height:240px;background:#2c312e;opacity:.2;pointer-events:none;clip-path:polygon(0 100%,0 62%,6% 62%,6% 38%,12% 38%,12% 52%,18% 52%,18% 22%,24% 22%,24% 56%,31% 56%,31% 32%,38% 32%,38% 66%,45% 66%,45% 26%,52% 26%,52% 50%,60% 50%,60% 14%,67% 14%,67% 46%,75% 46%,75% 30%,82% 30%,82% 60%,90% 60%,90% 38%,100% 38%,100% 100%)}
+#app,#login{position:relative;z-index:1}
+h1,h2{margin:0;font-family:Georgia,serif}h1 span{color:var(--y)}h2{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--cr);margin-bottom:10px}
+a{color:var(--a)}.m{color:var(--m);font-size:12px}
+.card{background:#1c2220;border:5px solid var(--wd);border-radius:12px;padding:14px;margin-bottom:12px;box-shadow:0 4px 0 rgba(0,0,0,.25),inset 0 0 30px rgba(0,0,0,.5)}
+header{margin:0 -12px 12px;padding:calc(env(safe-area-inset-top) + 10px) 14px 12px;background:#2f3a3a;display:flex;justify-content:space-between;align-items:flex-start;border-bottom:4px solid #1d2424}
+.code{font:700 12px Georgia,serif;color:#9fb0ac;letter-spacing:.15em}.logo{font:900 25px Georgia,serif;letter-spacing:.04em;color:var(--cr);text-transform:uppercase;line-height:1.05}
+.sub{font:700 11px Georgia,serif;letter-spacing:.35em;color:#c9c3a8;margin:3px 0 6px}
+.live{font-size:12px;color:var(--g);font-weight:700}.live.off{color:var(--r)}.live i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--g);margin-right:6px;animation:p 1.6s infinite}
+@keyframes p{70%{box-shadow:0 0 0 9px transparent}0%{box-shadow:0 0 0 0 var(--g)}}
+input,select{width:100%;padding:11px;border-radius:8px;border:1px solid #5a5f58;background:#121615;color:#f2efe4;font-size:16px;margin-bottom:8px}
+.btn,.ghost{border:0;border-radius:8px;padding:11px 16px;font-weight:800;font-size:14px}.btn{background:var(--cr);color:#241d14}.ghost{background:rgba(239,230,200,.14);color:var(--cr);padding:7px 10px;font-size:12px}
+.row{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.08);font-size:14px}.row:last-child{border:0}
+.big{font:900 30px Georgia,serif;color:var(--cr)}.timer{font:900 28px Georgia,serif;font-variant-numeric:tabular-nums;color:var(--y)}
+.bar{height:8px;border-radius:6px;background:rgba(255,255,255,.1);overflow:hidden;margin:3px 0 10px}.bar b{display:block;height:100%;background:linear-gradient(90deg,var(--b),var(--a))}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.day{background:#141918;border-radius:10px;padding:10px;text-align:center}.day .n{font:900 24px Georgia,serif}
 .x{color:var(--r)}.f{color:var(--a)}.s{color:var(--g)}
 .bars{display:flex;gap:3px;height:90px}.bars>div{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}.bars b{width:100%;border-radius:4px 4px 0 0;min-height:2px}.bars small{font-size:9px;color:var(--m)}.bars em{font-size:9px;font-style:normal}
 .tab{display:none}.tab.on{display:block}
-nav{position:fixed;left:10px;right:10px;bottom:calc(env(safe-area-inset-bottom) + 8px);display:flex;gap:4px;background:rgba(20,20,40,.92);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:6px;backdrop-filter:blur(12px)}
-nav button{flex:1;background:0;border:0;color:var(--m);padding:9px 2px;border-radius:12px;font-size:12px;font-weight:700}nav button.on{background:linear-gradient(90deg,rgba(0,229,255,.2),rgba(180,76,255,.25));color:#fff}
-details{border-bottom:1px solid rgba(255,255,255,.07);padding:6px 0;font-size:13px}summary{display:flex;gap:8px;cursor:pointer}summary span{color:var(--m);min-width:92px}pre{white-space:pre-wrap;font-size:11px;color:var(--m);margin:6px 0 0}
-.pill{display:inline-block;background:rgba(180,76,255,.2);border:1px solid var(--b);border-radius:20px;padding:4px 10px;margin:3px 3px 0 0;font-size:12px}
+nav{position:fixed;left:8px;right:8px;bottom:calc(env(safe-area-inset-bottom) + 8px);display:flex;gap:3px;background:#7a5230;border:3px solid #4d321a;border-radius:14px;padding:4px;z-index:5}
+nav button{flex:1;background:0;border:0;color:#e9dcc0;padding:9px 0;border-radius:9px;font:700 11px Georgia,serif}nav button.on{background:var(--cr);color:#2a2118}
+details{border-bottom:1px solid rgba(255,255,255,.08);padding:6px 0;font-size:13px}summary{display:flex;gap:8px;cursor:pointer}summary span{color:var(--m);min-width:92px}pre{white-space:pre-wrap;font-size:11px;color:var(--m);margin:6px 0 0}
+.pill{display:inline-block;background:rgba(90,168,74,.25);border:1px solid var(--b);border-radius:20px;padding:4px 10px;margin:3px 3px 0 0;font-size:12px}
+.tg{display:grid;grid-template-columns:1fr 1fr;gap:8px}.tile{background:#232826;border:2px solid #4a514c;border-radius:10px;padding:10px 6px;text-align:center;font-size:13px;color:var(--cr)}.tile small{display:block;color:var(--m);font-size:10px;margin-top:2px}.tile.on{border-color:var(--g)}.ti{font-size:24px}
 #err{color:var(--r);margin-top:8px}
 </style></head><body>
 <div id="login" class="card" style="margin-top:12vh;text-align:center"><h1 style="font-size:40px;font-weight:900">TORN <span>HQ</span></h1><p class="m">Paste your Full Access API key</p><input id="key" placeholder="API key" autocomplete="off"><button class="btn" onclick="doLogin()">Connect</button><div id="err"></div></div>
 <div id="app" hidden>
-<header><div><div class="logo">TORN <span>HQ</span></div><div id="who" class="live">…</div></div><div style="text-align:right"><div id="cd" class="m"></div><button class="ghost" onclick="logout()">Log out</button></div></header>
-<section id="t-ov" class="tab on"><div id="ov"></div></section>
+<header><div><div class="code" id="pid"></div><div class="logo" id="ttl">TORN HQ</div><div class="sub">TORN CITY EDITION</div><div id="who" class="live">…</div></div><div style="text-align:right"><div id="cd" class="m"></div><button class="ghost" onclick="logout()">Log out</button></div></header>
+<section id="t-ov" class="tab on"><div id="ov"></div><div id="adv"></div></section>
 <section id="t-ac" class="tab"><div id="ac"></div></section>
-<section id="t-lg" class="tab">
+<section id="t-lg" class="tab"><div id="rep"></div><div id="tiles"></div>
 <div class="card"><h2>Log Explorer</h2><input id="q" placeholder="Search logs (xanax, travel, bazaar…)" oninput="renderLogs()"><select id="cat" onchange="renderLogs()"></select>
 <button class="btn" onclick="pullLogs(5,true)">Load older</button> <button class="ghost" onclick="csv()">Export CSV</button><div id="lstat" class="m" style="margin-top:8px"></div></div>
 <div class="card"><h2>Events per day</h2><div id="cday"></div></div><div class="card"><h2>Activity by hour</h2><div id="chour"></div></div>
 <div class="card"><h2>Top actions</h2><div id="top"></div></div><div class="card"><h2>Entries (tap for raw data)</h2><div id="llist"></div></div></section>
 <section id="t-bk" class="tab"><div id="bk"></div></section>
-<nav><button class="on" onclick="go('ov',this)">Home</button><button onclick="go('ac',this)">Activity</button><button onclick="go('lg',this)">Logs</button><button onclick="go('bk',this)">Bank</button></nav>
+<section id="t-tl" class="tab"><div id="cal"></div><div id="tl"></div><div class="card"><h2>Gambling · manual tracker</h2><input id="ga" type="number" inputmode="decimal" placeholder="Amount"><button class="btn" onclick="gAdd(1)">+ Win</button> <button class="ghost" onclick="gAdd(0)">− Loss</button> <button class="ghost" onclick="gRes()">Reset</button><div id="gn" class="m" style="margin-top:8px"></div></div></section>
+<section id="t-sc" class="tab"><div id="sc"></div></section>
+<nav><button class="on" onclick="go('ov',this)">Home</button><button onclick="go('ac',this)">Daily</button><button onclick="go('lg',this)">Reports</button><button onclick="go('bk',this)">Bank</button><button onclick="go('tl',this)">Tools</button><button onclick="go('sc',this)">Scripts</button></nav>
 </div>
 <script>
 const $=i=>document.getElementById(i),fmt=n=>Number(n).toLocaleString(),$$=n=>'$'+fmt(Math.round(n)),pad=n=>String(n).padStart(2,'0'),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-let KEY='',D={},BANK=null,MER=null,LOGS=new Map(),eduEnd=0,cd=20,tk=0,loading=false;
+let KEY='',D={},BANK=null,EV=[],BARS=null,CR=null,CAL=null,SLOT=null,USE=true,CALERR='',CV=[],MER=null,LOGS=new Map(),eduEnd=0,cd=20,tk=0,loading=false;
 const TR={standard:['Standard ticket',1],airstrip:['Private airstrip (island)',.7],private:['Private jet',.5],business:['Business / first class',.3]};
 const DESTS=['South Africa','Mexico','Cayman Islands','Canada','Hawaii','United Kingdom','Argentina','Switzerland','Japan','China','UAE'];
 const dest=e=>{const s=(JSON.stringify(e.data||{})+JSON.stringify(e.params||{})).toLowerCase();return DESTS.find(d=>s.includes(d.toLowerCase()))||null};
 const lsg=k=>{try{return localStorage.getItem(k)}catch(e){return null}},lss=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
 async function api(sel,extra=''){const r=await fetch(`https://api.torn.com/user/?selections=${sel}&key=${KEY}${extra}`);const d=await r.json();if(d.error)throw new Error(d.error.error);return d}
 async function doLogin(k){KEY=(k||$('key').value).trim();if(!KEY)return;$('err').textContent='';
-try{await refresh(true);lss('tk',KEY);$('login').hidden=true;$('app').hidden=false;renderAct();pullLogs(15,false)}catch(e){$('err').textContent='Error: '+e.message}}
+try{await refresh(true);lss('tk',KEY);$('login').hidden=true;$('app').hidden=false;renderAct();renderSc();renderTiles();pullLogs(15,false)}catch(e){$('err').textContent='Error: '+e.message}}
 function logout(){try{localStorage.removeItem('tk')}catch(e){}location.reload()}
 function go(t,b){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));$('t-'+t).classList.add('on');document.querySelectorAll('nav button').forEach(x=>x.classList.remove('on'));b.classList.add('on')}
 async function refresh(strict){try{D=await api('profile,battlestats,networth,education')}catch(e){if(strict)throw e;$('who').className='live off';$('who').textContent='● connection problem: '+e.message;return}
-$('who').className='live';$('who').innerHTML=`<i></i>LOGGED IN · ${esc(D.name)} [${D.player_id}]`;
+$('who').className='live';$('ttl').textContent=D.name.replace(/[-_]/g,' ');$('pid').textContent=D.player_id;$('who').innerHTML=`<i></i>LOGGED IN · ${esc(D.name)} [${D.player_id}]`;
 eduEnd=D.education_timeleft?Date.now()/1e3+D.education_timeleft:0;renderOv();
 try{BANK=(await api('money')).city_bank||null}catch(e){}
 if(!MER)try{MER=(await api('merits')).merits||null}catch(e){}
-renderBank()}
+renderBank();extras()}
 function renderOv(){const d=D,st=['strength','defense','speed','dexterity'],v=st.map(s=>+d[s]||0),mx=Math.max(...v,1),low=st[v.indexOf(Math.min(...v))];
 const nw=d.networth||{},tot=nw.total,rest=Object.entries(nw).filter(([k,x])=>k!='total'&&typeof x=='number'&&x!=0).sort((a,b)=>b[1]-a[1]);
 const done=d.education_completed?d.education_completed.length:0;
@@ -65,19 +71,20 @@ $('ov').innerHTML=`<div class="card"><div style="font-size:22px;font-weight:900"
 <div class="card"><h2>Education</h2>${d.education_current?`<div id="edu" class="timer">…</div><div class="m">Course ID ${d.education_current} · ${done} completed</div>`:`<div id="edu" class="timer" style="color:var(--r)">No course running</div><div class="m">${done} completed · start the next one!</div>`}</div>
 <div class="card"><h2>Net worth</h2>${tot!=null?`<div class="big">${$$(tot)}</div>`:'<div class="m">Needs a Full Access key</div>'}${rest.map(([k,x])=>`<div class="row"><span>${k}</span><span>${$$(x)}</span></div>`).join('')}</div>
 <div class="card"><h2>Battle stats</h2>${v[0]||v[1]?st.map((s,i)=>`<div class="row" style="border:0;padding-bottom:0"><span>${s}${s==low?' ⚡ train':''}</span><span>${fmt(v[i])}</span></div><div class="bar"><b style="width:${v[i]/mx*100}%"></b></div>`).join('')+`<div class="m">Lowest is <b>${low}</b>. Train it for balance, or ignore if you're specialising.</div>`:'<div class="m">Needs a Full Access key</div>'}</div>`}
-function renderAct(){const sel=lsg('tr')||'standard',t=TR[sel],one=Math.round(297*t[1]);
+function renderAct(){renderAct0();$('ac').insertAdjacentHTML('beforeend',flightCard())}
+function renderAct0(){const sel=lsg('tr')||'standard',t=TR[sel],one=Math.round(297*t[1]);
 const days=[0,1,2].map(i=>{const d=new Date();d.setDate(d.getDate()-i);return d.toDateString()}),names=['Today','Yesterday','2 days ago'];
-let anyDest=false;LOGS.forEach(e=>{if(/travel depart/i.test(e.title||'')&&dest(e))anyDest=true});
-const R=days.map(k=>{let x=0,f=0,sa=0,bu=0;LOGS.forEach(e=>{if(new Date(e.timestamp*1e3).toDateString()!=k)return;const t=e.title||'';if(/use xanax/i.test(t))x++;else if(/travel depart/i.test(t)){f++;if(dest(e)=='South Africa')sa++}else if(/abroad buy/i.test(t))bu++});return{x,f,sa,bu}});
+const FL=flightDest(),anyDest=true;
+const R=days.map(k=>{let x=0,f=0,sa=0,bu=0;LOGS.forEach(e=>{if(new Date(e.timestamp*1e3).toDateString()!=k)return;const t=e.title||'';if(/use xanax/i.test(t))x++;else if(/travel depart/i.test(t)){f++;if(FL[e.id]=='South Africa')sa++}else if(/abroad buy/i.test(t))bu++});return{x,f,sa,bu}});
 $('ac').innerHTML=`<div class="card"><h2>Travel method</h2><select onchange="lss('tr',this.value);renderAct()">${Object.entries(TR).map(([k,v])=>`<option value="${k}" ${k==sel?'selected':''}>${v[0]}</option>`).join('')}</select>
-<div class="row"><span>South Africa one-way ≈</span><span>${one} min</span></div><div class="row"><span>Round trip ≈</span><span>${one*2} min</span></div><div class="row"><span>Max round trips / 24h</span><span>${Math.floor(1440/(one*2))}</span></div><div class="m">Times are approximate (standard = 297 min, reduced by your method).</div></div>
+<div class="row"><span>South Africa one-way ≈</span><span>${hm2(one)}</span></div><div class="row"><span>Round trip ≈</span><span>${hm2(one*2)}</span></div><div class="row"><span>Max round trips / 24h</span><span>${Math.floor(1440/(one*2))}</span></div><div class="m">Destinations are estimated from flight time. If your real S. Africa one-way differs, enter it (h:mm):</div><input placeholder="e.g. 3:15" value="${lsg('sa')||''}" onchange="lss('sa',this.value);renderAct()"></div>
 ${R.map((r,i)=>`<div class="card"><h2>${names[i]}</h2><div class="grid"><div class="day"><div class="n x">${r.x}</div><div class="m">Xanax</div></div><div class="day"><div class="n f">${r.f}</div><div class="m">Flights</div></div><div class="day"><div class="n s">${anyDest?r.sa:'n/a'}</div><div class="m">To S. Africa</div></div></div><div class="m" style="margin-top:8px">Abroad purchases: ${r.bu}</div></div>`).join('')}
 ${anyDest?'':'<div class="m">Your log entries don\'t include flight destinations, so the South Africa count can\'t be shown.</div>'}`}
 async function pullLogs(pages,older){if(loading)return;loading=true;$('lstat').textContent='Loading logs…';
 try{let to=older&&LOGS.size?Math.min(...[...LOGS.values()].map(e=>e.timestamp))-1:0;const c=new Date();c.setHours(0,0,0,0);const cut=c/1e3-172800;
 for(let i=0;i<pages;i++){const d=await api('log','&limit=100'+(to?'&to='+to:''));const a=Object.entries(d.log||{});if(!a.length)break;let old=1e12;a.forEach(([id,e])=>{e.id=id;LOGS.set(id,e);old=Math.min(old,e.timestamp)});to=old-1;if(!older&&old<cut)break}}
 catch(e){$('lstat').textContent='Log error: '+e.message+' (key needs log access)'}
-loading=false;renderLogs();renderAct()}
+loading=false;renderLogs();renderAct();renderTools();renderTiles();renderRep()}
 function bars(v,l,c){const m=Math.max(...v,1);return `<div class="bars">${v.map((x,i)=>`<div><em>${x||''}</em><b style="height:${x/m*70}px;background:${c}"></b><small>${l[i]}</small></div>`).join('')}</div>`}
 function renderLogs(){const all=[...LOGS.values()].sort((a,b)=>b.timestamp-a.timestamp),cats=[...new Set(all.map(e=>e.category).filter(Boolean))].sort(),sel=$('cat'),cur=sel.value;
 sel.innerHTML='<option value="">All categories</option>'+cats.map(c=>`<option ${c==cur?'selected':''}>${esc(c)}</option>`).join('');
@@ -93,9 +100,14 @@ $('llist').innerHTML=f.slice(0,150).map(e=>`<details><summary><span>${new Date(e
 function csv(){const a=[...LOGS.values()].sort((x,y)=>y.timestamp-x.timestamp),q=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
 const u=URL.createObjectURL(new Blob([['time,category,title,data'].concat(a.map(e=>[new Date(e.timestamp*1e3).toISOString(),e.category,e.title,JSON.stringify(e.data||{})].map(q).join(','))).join('\n')],{type:'text/csv'}));const l=document.createElement('a');l.href=u;l.download='torn-logs.csv';l.click()}
 const ADV=[[/bank|interest/i,'Boosts every investment payout, so it grows with your daily income.'],[/addiction/i,'You take Xanax daily and use rehab, so this directly helps.'],[/drug|booster/i,'You rely on Xanax, so shorter drug cooldowns help.'],[/education/i,'You run courses constantly, so shorter courses finish more of them.'],[/medical|revive/i,'Cuts medical cooldowns, useful during faction wars.'],[/nerve/i,'More nerve means more crimes and OC readiness.']];
+const bf=(b,re)=>{for(const k in b){if(re.test(k)&&b[k]!=null&&b[k]!=='')return b[k]}return null};
 function renderBank(){const b=BANK;let h='<div class="card"><h2>Bank investment</h2>';
-if(b&&b.amount){const p=b.profit??b.amount*b.interest_rate/100,dur=b.duration||1;h+=`<div class="big">${$$(b.amount)}</div><div class="m">invested${b.duration?' · '+b.duration+' days':''}${b.interest_rate?' · '+b.interest_rate+'%':''}</div>
-<div class="row"><span>Profit at payout</span><b class="s">${$$(p)}</b></div><div class="row"><span>Per day</span><span>${$$(p/dur)}</span></div><div class="row"><span>Per 30 days</span><span>${$$(p/dur*30)}</span></div>${b.until>1e9?`<div class="row"><span>Pays out</span><span>${new Date(b.until*1e3).toLocaleString()}</span></div>`:''}<div class="m">The rate Torn returns already includes your Bank Interest merit.</div>`}
+if(b&&b.amount){const rate=+bf(b,/rate|interest/i)||0,dur=+bf(b,/dur|period|days/i)||0,pr=+bf(b,/profit/i)||(rate?b.amount*rate/100:0),un=+bf(b,/until|end/i)||0;
+h+=`<div class="big">${$$(b.amount)}</div><div class="m">invested${dur?' · '+dur+' days':''}${rate?' · '+rate+'%':''}</div>`;
+if(pr){h+=`<div class="row"><span>Profit at payout</span><b class="s">${$$(pr)}</b></div>`+(dur?`<div class="row"><span>Per day</span><span>${$$(pr/dur)}</span></div><div class="row"><span>Per 30 days</span><span>${$$(pr/dur*30)}</span></div>`:'')}
+else h+='<div class="m">Torn did not return the rate or profit. Use the calculator below.</div>';
+if(un>1e9)h+=`<div class="row"><span>Pays out</span><span>${new Date(un*1e3).toLocaleString()}</span></div>`;
+h+=`<details><summary><span>Raw</span><b>bank data</b></summary><pre>${esc(JSON.stringify(b,null,1))}</pre></details>`}
 else h+='<div class="m">No active investment found. Use the calculator below.</div>';
 h+=`</div><div class="card"><h2>What-if calculator</h2><input id="wa" type="number" inputmode="decimal" placeholder="Amount" value="${b&&b.amount||''}" oninput="wif()"><input id="wr" type="number" inputmode="decimal" placeholder="Rate % for the period (from the bank page)" value="${b&&b.interest_rate||''}" oninput="wif()"><input id="wd" type="number" inputmode="decimal" placeholder="Period in days" value="${b&&b.duration||''}" oninput="wif()"><div id="wo" class="m">Enter the three numbers.</div></div>`;
 const m=MER&&typeof MER=='object'?Object.entries(MER).map(([k,v])=>[k,+(v&&v.level!==undefined?v.level:v)||0]):[];
@@ -106,7 +118,100 @@ h+=`<div class="card"><h2>Suggested next merits</h2>${sug.length?sug.map(s=>`<di
 else h+='<div class="card"><h2>Merits</h2><div class="m">Merit data not available with this key.</div></div>';
 $('bk').innerHTML=h;wif()}
 function wif(){const a=+$('wa')?.value,r=+$('wr')?.value,d=+$('wd')?.value;if(!$('wo'))return;$('wo').innerHTML=a&&r&&d?`Profit <b class="s">${$$(a*r/100)}</b> · ${$$(a*r/100/d)}/day · ${$$(a*r/100/d*30)}/30 days`:'Enter the three numbers.'}
+const PAL=['#2aa6b8','#7bd66b','#e8c55a','#e0655a','#b08be0','#d89a52','#6fa8ff','#a8c97a','#e07ab0','#b9b5a3'];
+const GAM=/casino|slots|roulette|blackjack|poker|russian|lottery|wheel|keno|high.?low|craps|bookie|baccarat|\bbet\b/i;
+const tag=s=>String(s||'').replace(/<[^>]*>/g,'');
+function pie(it,f){const t=it.reduce((s,x)=>s+x[1],0)||1;let a=0;const g=it.map((x,i)=>{const b=a;a+=x[1]/t*100;return PAL[i%10]+' '+b+'% '+a+'%'}).join(',');
+return `<div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap"><div style="width:130px;height:130px;border-radius:50%;background:conic-gradient(${g});box-shadow:0 0 24px rgba(0,229,255,.25);flex:none"></div><div style="flex:1;min-width:140px;font-size:13px">${it.map((x,i)=>`<div><span style="color:${PAL[i%10]}">●</span> ${esc(x[0])} <b>${f(x[1])}</b> <span class="m">${Math.round(x[1]/t*100)}%</span></div>`).join('')}</div></div>`}
+function cls(t){const m=[...t.matchAll(/\$([\d,]+)/g)].reduce((s,x)=>s+ +x[1].replace(/,/g,''),0);if(!m)return null;
+if(/mugged you|stole from you|robbed you|you lost/i.test(t))return['Mugged / lost',-m];
+return[/bounty/i.test(t)?'Bounties':/bazaar/i.test(t)?'Bazaar sales':/market|listing/i.test(t)?'Item market':/you mugged|you stole/i.test(t)?'Your muggings':/sent you/i.test(t)?'Money received':'Other income',m]}
+async function extras(){try{BARS=await api('bars')}catch(e){}
+if(tk%3==0||!EV.length)try{EV=Object.values((await api('events')).events||{}).sort((a,b)=>b.timestamp-a.timestamp)}catch(e){}
+if(!CR)try{const d=await api('crimes');CR=d.criminalrecord||d.crimes||null}catch(e){}
+if(!CAL)try{const g=async p=>(await fetch('https://api.torn.com/v2/'+p+'?key='+KEY)).json();const a=await g('torn/calendar');if(a.error)throw new Error(a.error.error);CAL=normCal(a);CALERR=CAL.length?'':'Torn returned no calendar events.';try{const u=await g('user/calendar');if(!u.error)SLOT=slot(u)}catch(e){}}catch(e){CAL=[];CALERR='Calendar error: '+e.message}
+renderCal();renderTools()}
+function hm(s){return s>0?Math.floor(s/3600)+'h '+pad(Math.floor(s%3600/60))+'m':'now'}
+function renderTools(){if(!$('tl'))return;gRender();renderAdv();
+const nw=Object.entries(D.networth||{}).filter(([k,v])=>k!='total'&&v>0).sort((a,b)=>b[1]-a[1]);
+const ev=EV.map(e=>{const t=tag(e.event);return{t,c:cls(t)}}),g={};let loss=0,big=0;
+ev.forEach(x=>{if(!x.c)return;if(x.c[1]<0)loss-=x.c[1];else{g[x.c[0]]=(g[x.c[0]]||0)+x.c[1];big=Math.max(big,x.c[1])}});
+const gi=Object.entries(g).sort((a,b)=>b[1]-a[1]),gt=gi.reduce((s,x)=>s+x[1],0);
+const n=BARS&&BARS.nerve,all=[...LOGS.values()],cl=all.filter(e=>/crime/i.test((e.category||'')+' '+(e.title||''))),ct={};
+cl.forEach(e=>ct[e.title]=(ct[e.title]||0)+1);const ok=cl.filter(e=>/success/i.test(e.title)).length,bad=cl.filter(e=>/fail/i.test(e.title)).length;
+const gl=all.filter(e=>GAM.test(e.title||'')),gc={};gl.forEach(e=>gc[e.title]=(gc[e.title]||0)+1);
+const cr=CR&&typeof CR=='object'?Object.entries(CR).filter(([k,v])=>typeof v=='number'&&k!='total').sort((a,b)=>b[1]-a[1]):[];
+$('tl').innerHTML=`<div class="card"><h2>Net worth breakdown</h2>${nw.length?pie(nw,$$):'<div class="m">Needs a Full Access key</div>'}</div>
+<div class="card"><h2>Event earnings</h2>${gi.length?pie(gi,$$)+`<div class="row"><span>Total income</span><b class="s">${$$(gt)}</b></div><div class="row"><span>Lost to muggings</span><b class="x">${$$(loss)}</b></div>`:'<div class="m">No money events found in your recent events.</div>'}</div>
+<div class="card"><h2>Recent events (money)</h2><div class="m">${ev.length} recent events${big?' · biggest payout '+$$(big):''}</div>${ev.slice(0,12).map(x=>`<div class="row"><span>${esc(x.t.slice(0,90))}</span>${x.c?`<b class="${x.c[1]<0?'x':'s'}">${$$(x.c[1])}</b>`:''}</div>`).join('')||'<div class="m">Events unavailable with this key.</div>'}</div>
+<div class="card"><h2>Crime helper</h2>${n?`<div class="row" style="border:0;padding-bottom:0"><span>Nerve</span><b>${n.current}/${n.maximum}</b></div><div class="bar"><b style="width:${n.current/n.maximum*100}%"></b></div><div class="m">${n.current>=n.maximum?'Nerve is capped. Commit crimes now so it keeps refilling.':n.current>=n.maximum*.8?'Nearly full. Spend it soon. Full in '+hm(n.fulltime):'Full in '+hm(n.fulltime)}</div>`:'<div class="m">Nerve bar unavailable.</div>'}
+${cl.length?`<div class="row"><span>Crimes in loaded logs</span><b>${cl.length}</b></div><div class="row"><span>Success / fail</span><b>${ok} / ${bad}${ok+bad?' · '+Math.round(ok/(ok+bad)*100)+'%':''}</b></div>${Object.entries(ct).sort((a,b)=>b[1]-a[1]).slice(0,5).map(([k,v])=>`<div class="row"><span>${esc(k)}</span><b>${v}</b></div>`).join('')}`:'<div class="m" style="margin-top:6px">No crime entries in loaded logs. Load older in the Logs tab.</div>'}
+${cr.length?'<div class="m" style="margin-top:8px">Criminal record</div>'+cr.slice(0,6).map(([k,v])=>`<div class="row"><span>${esc(k)}</span><b>${fmt(v)}</b></div>`).join(''):''}</div>
+<div class="card"><h2>Gambling · from your logs</h2>${gl.length?`<div class="row"><span>Gambling entries</span><b>${gl.length}</b></div>`+Object.entries(gc).sort((a,b)=>b[1]-a[1]).slice(0,6).map(([k,v])=>`<div class="row"><span>${esc(k)}</span><b>${v}</b></div>`).join(''):'<div class="m">No gambling entries in loaded logs.</div>'}</div>`}
+function gRender(){const l=JSON.parse(lsg('gl')||'[]'),net=l.reduce((a,b)=>a+b,0);$('gn').innerHTML=`Net: <b class="${net<0?'x':'s'}">${$$(net)}</b> · ${l.length} entries${l.length?' · last: '+l.slice(-5).map($$).join(', '):''}`}
+function gAdd(w){const a=Math.abs(+$('ga').value);if(!a)return;const l=JSON.parse(lsg('gl')||'[]');l.push(w?a:-a);lss('gl',JSON.stringify(l));$('ga').value='';gRender()}
+function gRes(){lss('gl','[]');gRender()}
+const tsv=v=>{let n=typeof v=='number'?v:/^\d+$/.test(v)?+v:Date.parse(v)/1e3;return n>1e12?n/1e3:(n||0)};
+function normCal(d){const c=d.calendar||d,o=[];[['events','Event'],['competitions','Competition']].forEach(([k,l])=>{let a=c[k];if(!a)return;a=Array.isArray(a)?a:Object.values(a);a.forEach(x=>{const st=tsv(x.start??x.start_time),en=tsv(x.end??x.end_time);if(st)o.push({t:x.title||x.name||'Event',d:tag(x.description||''),s:st,e:en,k:l})})});return o.sort((a,b)=>a.s-b.s)}
+function slot(d){const m=JSON.stringify(d).match(/(\d{1,2}):(\d{2})/);return m?[+m[1],+m[2]]:null}
+function eff(x){if(!SLOT||!USE||x.k!='Event')return x.s;const d=new Date(x.s*1e3);if(d.getUTCHours()||d.getUTCMinutes())return x.s;return Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate(),SLOT[0],SLOT[1])/1e3}
+const fd=t=>new Date(t*1e3).toLocaleString([],{weekday:'short',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})+' · '+new Date(t*1e3).toLocaleTimeString('en-GB',{timeZone:'UTC',hour:'2-digit',minute:'2-digit'})+' TCT';
+const ic=s=>String(s).replace(/\\/g,'\\\\').replace(/[,;]/g,'\\$&').replace(/\n/g,' ');
+const zt=t=>new Date(t*1e3).toISOString().replace(/[-:]|\.\d{3}/g,'');
+function ics(list){const lead=+(lsg('lead')||60),L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Torn HQ//EN','CALSCALE:GREGORIAN'];
+list.forEach(x=>L.push('BEGIN:VEVENT','UID:'+x.es+x.t.replace(/\W/g,'')+'@tornhq','DTSTAMP:'+zt(Date.now()/1e3),'DTSTART:'+zt(x.es),'DTEND:'+zt(x.ee||x.es+3600),'SUMMARY:'+ic('Torn: '+x.t),'DESCRIPTION:'+ic(x.d+' (Torn City Time = UTC)'),'BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:'+ic(x.t+' starts soon'),'TRIGGER:-PT'+lead+'M','END:VALARM','END:VEVENT'));
+L.push('END:VCALENDAR');return L.join('\r\n')}
+function dl(list){const a=document.createElement('a');a.href='data:text/calendar;charset=utf-8,'+encodeURIComponent(ics(list));a.click()}
+function renderCal(){if(!$('cal'))return;const now=Date.now()/1e3,lead=lsg('lead')||'60';
+CV=(CAL||[]).map(x=>{const es=eff(x);return{...x,es,ee:x.e?x.e+(es-x.s):0}}).filter(x=>(x.ee||x.es)>now).slice(0,12);
+$('cal').innerHTML=`<div class="card"><h2>Event calendar</h2>${SLOT?`<div class="row"><span>Your event start slot</span><b>${pad(SLOT[0])}:${pad(SLOT[1])} TCT</b></div><button class="ghost" onclick="USE=!USE;renderCal()">${USE?'Using my slot':'Using base time'} · tap to switch</button>`:'<div class="m">Your personal start slot was not detected, so times are shown as Torn gives them.</div>'}
+<div style="margin:10px 0 4px" class="m">Reminder</div><select onchange="lss('lead',this.value);renderCal()">${[[0,'At start'],[15,'15 min before'],[60,'1 hour before'],[1440,'1 day before']].map(([v,l])=>`<option value="${v}" ${v==lead?'selected':''}>${l}</option>`).join('')}</select>
+${CV.length?`<button class="btn" onclick="dl(CV)">Add all upcoming to calendar</button>`:''}</div>
+${CV.map((x,i)=>{const live=x.es<=now;return `<div class="card"><div style="display:flex;justify-content:space-between;gap:8px"><b>${esc(x.t)}</b><span class="pill" style="margin:0;${live?'border-color:var(--g);background:rgba(61,255,154,.2)':''}">${live?'LIVE':x.k}</span></div><div class="timer" style="font-size:20px" data-t="${live?(x.ee||x.es):x.es}">…</div><div class="m">${live?'ends in':'starts in'}</div><div class="row"><span>Start</span><span>${fd(x.es)}</span></div>${x.ee?`<div class="row"><span>End</span><span>${fd(x.ee)}</span></div>`:''}<div class="m">${esc(x.d.slice(0,160))}</div><button class="ghost" style="margin-top:8px" onclick="dl([CV[${i}]])">📅 Add to my calendar</button></div>`}).join('')||`<div class="card m">${esc(CALERR||'Loading calendar…')} <button class="ghost" onclick="CAL=null;extras()">Retry</button></div>`}`}
+const FT={'Mexico':26,'Cayman Islands':35,'Canada':41,'Hawaii':134,'United Kingdom':159,'Argentina':167,'Switzerland':175,'Japan':225,'China':242,'UAE':271,'South Africa':297};
+const hms=s=>{s=Math.max(0,Math.round(s));return pad(Math.floor(s/3600))+':'+pad(Math.floor(s%3600/60))+':'+pad(s%60)},hm2=m=>Math.floor(m/60)+'h '+pad(Math.round(m%60))+'m';
+function flights(){const k=TR[lsg('tr')||'standard'][1],sa=(lsg('sa')||'').match(/^(\d+):(\d{2})$/),cs=sa?+sa[1]*60+ +sa[2]:0;
+const a=[...LOGS.values()].filter(e=>/travel (depart|arrive)/i.test(e.title||'')).sort((x,y)=>x.timestamp-y.timestamp),o=[];
+a.forEach((e,i)=>{if(!/depart/i.test(e.title))return;const n=a.slice(i+1).find(x=>/arrive/i.test(x.title)),pv=a[i-1],out=!(pv&&/arrive/i.test(pv.title)&&e.timestamp-pv.timestamp<600);if(!n)return;
+const m=(n.timestamp-e.timestamp)/60;let d=null,best=1e9;if(cs&&Math.abs(m-cs)/cs<.06)d='South Africa';else for(const[c,t]of Object.entries(FT)){const df=Math.abs(m-t*k);if(df<best){best=df;d=c}}o.push({id:e.id,ts:e.timestamp,m,d,out})});return o}
+function flightDest(){const r={};flights().forEach(x=>{if(x.out)r[x.id]=x.d});return r}
+function flightCard(){const f=flights().slice(-8).reverse();return `<div class="card"><h2>Recent flights (estimated)</h2>${f.map(x=>`<div class="row"><span>${new Date(x.ts*1e3).toLocaleString([],{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})} · ${x.out?'out':'back'}</span><span>${hm2(x.m)} → <b>${x.d}</b></span></div>`).join('')||'<div class="m">No complete flights in loaded logs.</div>'}</div>`}
+const RT=[['Crimes & Nerve',[['🧠','Nerve',/nerve/i],['🔦','Crime Uniques',/crime/i],['🧾','Old Crimes',/crime|bust|cracking|scam|pickpocket|shoplift|burglar|hustl|disposal|forgery|graffiti|skimm/i],['☣️','Organized Crimes',/organi[sz]ed/i],['💰','Mug',/mug/i]]],
+['General',[['☢️','Dirty Bomb',/dirty bomb/i],['🎓','Education',/educat|course/i],['⚡','Energy',/energy/i],['🦛','Hunting',/hunt/i],['🃏','Poker',/poker/i],['💼','Press Pass',/press pass/i],['🏎️','Racing',/\brac(e|ing)/i],['🎰','Slots',/slots/i],['🎡','Spin the Wheel',/wheel/i],['🏋️','Trains Received',/train/i],['🔫','Russian Roulette',/russian|roulette/i],['🩺','Revives Given',/reviv/i],['🥊','Attacks In',/attack/i],['📚','Books',/book/i]]],
+['Items',[['🏪','Bazaar',/bazaar/i],['📍','City Finds',/find/i],['🌿','Drugs',/xanax|drug|cannabis|ecstasy|ketamine|lsd|opium|pcp|shrooms|speed|vicodin|love juice/i],['🚛','Dump Search',/dump/i],['🧺','Item Market',/market/i],['🛒','Shop Sales',/shop/i],['📦','Item Stats',/\bitem\b/i],['🕵️','Loot',/loot/i],['🧰','Supply Packs',/supply/i],['✈️','Travel',/travel|abroad/i]]],
+['Events',[['❄️','Christmas Town',/christmas/i],['🏷️','Dollar Sales',/dollar/i],['🥚','Easter Eggs',/easter|egg/i],['🎭','Seasonal NPCs',/seasonal|npc/i],['👻','Trick or Treat',/treat|trick|halloween|candy/i]]]];
+let REP=null;const RF=RT.flatMap(g=>g[1]),RM=(t,e)=>t[2].test((e.title||'')+' '+(e.category||''));
+function renderTiles(){const all=[...LOGS.values()];$('tiles').innerHTML=RT.map(([g,ts])=>`<div class="card"><h2>${g}</h2><div class="tg">${ts.map(t=>`<div class="tile ${REP==t[1]?'on':''}" onclick="REP='${t[1]}';renderTiles();renderRep();scrollTo(0,0)"><div class="ti">${t[0]}</div>${t[1]}<small>${all.filter(e=>RM(t,e)).length} entries</small></div>`).join('')}</div></div>`).join('')+`<div class="card"><h2>Utilities</h2><div class="tg"><div class="tile" onclick="csv()"><div class="ti">📤</div>Export Logs</div><div class="tile" onclick="go('sc',document.querySelectorAll('nav button')[5])"><div class="ti">📜</div>Userscripts</div><div class="tile" onclick="if(confirm('Clear saved key and local data?')){localStorage.clear();location.reload()}"><div class="ti">🗄️</div>Manage Data</div><div class="tile" onclick="alert('Your API key stays in this browser and is only sent to api.torn.com.')"><div class="ti">🔒</div>Security</div></div></div>`}
+function renderRep(){const t=RF.find(x=>x[1]==REP);if(!t){$('rep').innerHTML='';return}
+const L=[...LOGS.values()].filter(e=>RM(t,e)).sort((a,b)=>b.timestamp-a.timestamp),tc={},nk={};
+L.forEach(e=>{tc[e.title]=(tc[e.title]||0)+1;Object.entries({...(e.data||{}),...(e.params||{})}).forEach(([k,v])=>{if(typeof v=='number'){const o=nk[k]||(nk[k]={n:0,s:0});o.n++;o.s+=v}})});
+const dk=[...new Set(L.map(e=>new Date(e.timestamp*1e3).toDateString()))].slice(0,7).reverse(),mf=k=>/money|cost|price|amount|total|profit|win|bet|cash|value/i.test(k)?$$:fmt,fl=Object.entries(nk).sort((a,b)=>Math.abs(b[1].s)-Math.abs(a[1].s)).slice(0,8);
+$('rep').innerHTML=`<div class="card"><h2>${esc(t[1])} <button class="ghost" style="float:right" onclick="REP=null;renderTiles();renderRep()">Close</button></h2><div class="big">${L.length}</div><div class="m">entries in loaded logs${L.length?'':' · none matched. Try Load older, or my pattern may not fit this log title.'}</div>
+${L.length?pie(Object.entries(tc).sort((a,b)=>b[1]-a[1]).slice(0,8),fmt)+`<div style="margin-top:10px">${bars(dk.map(k=>L.filter(e=>new Date(e.timestamp*1e3).toDateString()==k).length),dk.map(k=>k.slice(4,10)),'linear-gradient(var(--a),var(--b))')}</div>`:''}
+${fl.length?`<h2 style="margin-top:12px">Numbers in the data</h2>`+fl.map(([k,o])=>{const f=mf(k);return `<div class="row"><span>${esc(k)} <span class="m">×${o.n}</span></span><span><b>${f(o.s)}</b> <span class="m">avg ${f(o.s/o.n)}</span></span></div>`}).join(''):''}
+${L.slice(0,25).map(e=>`<details><summary><span>${new Date(e.timestamp*1e3).toLocaleString([],{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}</span><b>${esc(e.title)}</b></summary><pre>${esc(JSON.stringify(e.data||{},null,1))}</pre></details>`).join('')}</div>`}
+const GF=q=>'https://greasyfork.org/en/scripts?q='+encodeURIComponent(q),ZT='https://github.com/z-torn/tampermonkey';
+const SC=[['Banking & money','bank',[['Torn Maxxed Command Center','https://greasyfork.org/ja/scripts/587910-torn-maxxed-command-center','Daily planner covering City Bank maturity, crimes, gym plans and progression.'],['Net Worth Display',ZT,'Shows your net worth on the page (z-torn collection).'],['One-Click Daily Dime',ZT,'One-tap daily bank action (z-torn collection).'],['Torn Stock Advisor / Analyzer',GF('Torn stock'),'Stock scripts that rank which blocks to buy next. Opens a search.']]],
+['Attacking','attack',[['Torn Attack Helper','https://greasyfork.org/scripts/452998-torn-attack-helper','Brings your YATA targets into the attack page.'],['Latest Attacks Extender',ZT,'Click an attack to see its full log (z-torn).'],['Bounty List Extender',ZT,'Adds rank beside level so targets are quicker to judge (z-torn).'],['Bat Stat Estimator',ZT,'Estimates a target\'s battle stats (z-torn).'],['PW Tools','https://github.com/paulwratt/torn-city-pwtools','Fight buttons in friends/black lists, re-attack helpers, linked profiles.']]],
+['Levelling & training','gym',[['StatForge','https://greasyfork.org/pt/scripts/575007-statforge/versions','Gym ratio panel that weights gains by your perks and protects special gyms.'],['Gym Gains',ZT,'Shows extra gym gains from perks, merits and faction (z-torn).'],['Level Progress Shower',GF('Torn Level Progress Shower'),'Level progress in the sidebar. Opens a search.']]],
+['Company','company',[['Pythagoras Project CIS','https://greasyfork.org/ru/scripts/580933-pythagoras-project-cis','Director toolkit: training ledger, staff records, analytics, wage planning.'],['More company scripts',GF('Torn company'),'Opens a search.']]],
+['Wars & faction','war',[['Torn War Stuff Enhanced',GF('Torn War Stuff Enhanced'),'Travel status and hospital timers on the war page. Opens a search.'],['Fac Respect Earned',ZT,'Tracks respect earned (z-torn).'],['Torn Rackets','https://greasyfork.org/en/scripts/389750-torn-rackets','Racket info in one place.']]],
+['Events & calendar','event',[['Custom and nearest Torn events','https://greasyfork.org/en/scripts/553545-custom-and-nearest-torn-events','Countdown to the next event plus custom shared events.'],['Event Calendar Alerter','https://www.torn.com/forums.php?p=threads&f=67&t=16592537&b=0&a=0','Shows upcoming events on most pages (forum thread).']]],
+['Travel, items & racing','bazaar',[['Bazaars in Item Market',GF('Bazaars in Item Market'),'Bazaar listings with sorting inside the item market. Opens a search.'],['Racing Car Order',ZT,'Custom car order for racing (z-torn).'],['User List Extender',ZT,'Adds rank beside level in user searches (z-torn).']]],
+['Hubs & web tools','torn',[['Torn Script Hub','https://greasyfork.org/ar/scripts/590550-torn-script-hub','One dashboard to launch and track your scripts.'],['Torn Report','https://torn.report/travel','The log-analysis site this page copies.'],['Torn Stats','https://www.tornstats.com/api','Stat tracking site and API.'],['Torn API playground','https://tornapi.tornplayground.eu/','Try API calls with your key.']]]];
+function renderSc(){$('sc').innerHTML=`<div class="card"><h2>Userscripts</h2><div class="m">Run them with Tampermonkey or Violentmonkey, or inside the Torn PDA app on a phone. Only scripts I found while researching are listed. Check what a script asks for before you give it your API key.</div></div>`+SC.map(([c,q,l])=>`<div class="card"><h2>${c}</h2>${l.map(([n,u,d])=>`<div class="row"><span><a href="${u}" target="_blank" rel="noopener"><b>${esc(n)}</b></a><br><span class="m">${esc(d)}</span></span></div>`).join('')}<a href="${GF('Torn '+q)}" target="_blank" rel="noopener"><button class="ghost" style="margin-top:8px">Find more on Greasy Fork</button></a></div>`).join('')}
+function renderAdv(){if(!$('adv'))return;const t=[],now=Date.now()/1e3,all=[...LOGS.values()];
+const m=MER&&typeof MER=='object'?Object.entries(MER).map(([k,v])=>[k,+(v&&v.level!==undefined?v.level:v)||0]):[],open=m.filter(x=>x[1]<10).sort((a,b)=>b[1]-a[1]);
+if(m.length)t.push(['Merits',open.length?`${m.length-open.length} maxed. Finish ${open[0][0]} (level ${open[0][1]}) next${open[1]?', then '+open.slice(1,3).map(x=>x[0]+' ('+x[1]+')').join(' and '):''}.`:'Everything shown is maxed.']);
+const n=BARS&&BARS.nerve;if(n)t.push(['Crimes',n.current>=n.maximum*.8?`Nerve is ${n.current}/${n.maximum}. Spend it now on your best-paying crime.`:`Nerve ${n.current}/${n.maximum}, full in ${hm(n.fulltime)}. Save crimes for when it passes 80%.`]);
+if(CR){const c=Object.entries(CR).filter(([k,v])=>typeof v=='number'&&k!='total').sort((a,b)=>a[1]-b[1]);if(c.length>1)t.push(['Crime variety',`Your least-used category is ${c[0][0]} (${fmt(c[0][1])}). Mixing it in helps unique-crime progress.`])}
+t.push(['Education',eduEnd?(eduEnd-now<86400?'Course ends within a day. Line up the next one so no time is wasted.':'Course running. Nothing to do yet.'):'No course running. Start one now.']);
+const bu=BANK&&+bf(BANK,/until|end/i);if(bu>1e9&&bu-now<2*86400)t.push(['Bank','Your investment pays out within 2 days. Plan the reinvest.']);
+const xn=all.filter(e=>/use xanax/i.test(e.title||'')&&new Date(e.timestamp*1e3).toDateString()==new Date().toDateString()).length;if(xn>=4)t.push(['Xanax',`${xn} today. Addiction builds up, so plan a rehab visit.`]);
+const nx=(CV||[]).find(x=>x.es>now&&x.es-now<3*86400);if(nx)t.push(['Events',`${nx.t} starts in ${hms(nx.es-now)}. Add it to your calendar in Tools.`]);
+$('adv').innerHTML=`<div class="card"><h2>Advisor</h2>${t.map(x=>`<div class="row"><span><b>${x[0]}</b><br><span class="m">${esc(x[1])}</span></span></div>`).join('')}<div class="m" style="margin-top:6px">Rule-based coach working from your own data. Not a live AI.</div></div>`}
 setInterval(()=>{if($('app').hidden)return;if(eduEnd&&$('edu')){const s=Math.max(0,Math.floor(eduEnd-Date.now()/1e3));$('edu').textContent=s?`${Math.floor(s/86400)}d ${pad(Math.floor(s%86400/3600))}h ${pad(Math.floor(s%3600/60))}m ${pad(s%60)}s`:'Course finished!'}
+document.querySelectorAll('[data-t]').forEach(e=>{const s=Math.floor(+e.dataset.t-Date.now()/1e3);e.textContent=s>0?Math.floor(s/86400)+'d '+pad(Math.floor(s%86400/3600))+'h '+pad(Math.floor(s%3600/60))+'m '+pad(s%60)+'s':'now'});
 cd--;$('cd').textContent='refresh in '+cd+'s';if(cd<=0){cd=20;tk++;refresh();if(tk%3==0)pullLogs(1,false)}},1000);
 window.onload=()=>{const k=lsg('tk');if(k){$('key').value=k;doLogin(k)}};
 </script></body></html>
