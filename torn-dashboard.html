@@ -1,135 +1,112 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Torn Dashboard</title>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Torn HQ</title>
 <style>
-  body { background:#111; color:#eee; font-family: -apple-system, sans-serif; padding:10px; }
-  .card { background:#1e1e1e; border-radius:10px; padding:12px; margin-bottom:12px; }
-  h1 { font-size:20px; }
-  h2 { margin:0 0 8px 0; font-size:16px; color:#4cafef; }
-  .stat { display:flex; justify-content:space-between; gap:10px; padding:4px 0; border-bottom:1px solid #333; font-size:14px; }
-  input { width:100%; box-sizing:border-box; padding:10px; border-radius:6px; border:none; margin-bottom:8px; font-size:16px; }
-  button { padding:10px 14px; border-radius:6px; border:none; background:#4cafef; color:#000; font-weight:bold; }
-  #err { color:#ff5555; margin-top:8px; }
-  .small { font-size:12px; color:#999; }
-</style>
-</head>
-<body>
-<h1>Torn Dashboard</h1>
-
-<div class="card">
-  <input id="apikey" type="text" placeholder="Paste your Torn API key">
-  <button onclick="saveKey()">Save &amp; Load</button>
-  <div id="err"></div>
+:root{--a:#00e5ff;--b:#b44cff;--g:#3dff9a;--r:#ff4d6d;--y:#ffd24d;--m:#8b8fb5}
+*{box-sizing:border-box}
+body{margin:0;color:#e9ebff;font:15px -apple-system,system-ui,sans-serif;background:radial-gradient(900px 500px at 10% -10%,#32106a,transparent 60%),radial-gradient(800px 500px at 100% 0,#06405a,transparent 55%),#07070f;padding:calc(env(safe-area-inset-top) + 10px) 12px 96px;min-height:100vh}
+h1,h2{margin:0}h2{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--a);margin-bottom:10px}
+.m{color:var(--m);font-size:12px}.card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:14px;margin-bottom:12px;backdrop-filter:blur(8px)}
+.logo{font-weight:900;font-size:22px;letter-spacing:.06em}.logo span,h1 span{background:linear-gradient(90deg,var(--a),var(--b));-webkit-background-clip:text;color:transparent}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.live{font-size:12px;color:var(--g);font-weight:700}.live.off{color:var(--r)}.live i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--g);margin-right:6px;box-shadow:0 0 0 0 var(--g);animation:p 1.6s infinite}
+@keyframes p{70%{box-shadow:0 0 0 9px transparent}100%{box-shadow:0 0 0 0 transparent}}
+input,select{width:100%;padding:11px;border-radius:10px;border:1px solid rgba(255,255,255,.15);background:rgba(0,0,0,.35);color:#fff;font-size:16px;margin-bottom:8px}
+.btn,.ghost{border:0;border-radius:10px;padding:11px 16px;font-weight:800;font-size:14px}.btn{background:linear-gradient(90deg,var(--a),var(--b));color:#000}.ghost{background:rgba(255,255,255,.1);color:#fff;padding:7px 10px;font-size:12px}
+.row{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.07);font-size:14px}.row:last-child{border:0}
+.big{font-size:30px;font-weight:900;background:linear-gradient(90deg,var(--g),var(--a));-webkit-background-clip:text;color:transparent}
+.timer{font-size:28px;font-weight:900;font-variant-numeric:tabular-nums;color:var(--y);text-shadow:0 0 18px rgba(255,210,77,.4)}
+.bar{height:8px;border-radius:6px;background:rgba(255,255,255,.08);overflow:hidden;margin:3px 0 10px}.bar b{display:block;height:100%;background:linear-gradient(90deg,var(--b),var(--a));border-radius:6px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.day{background:rgba(0,0,0,.3);border-radius:12px;padding:10px;text-align:center}.day .n{font-size:24px;font-weight:900}
+.x{color:var(--r)}.f{color:var(--a)}.s{color:var(--g)}
+.bars{display:flex;gap:3px;height:90px}.bars>div{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}.bars b{width:100%;border-radius:4px 4px 0 0;min-height:2px}.bars small{font-size:9px;color:var(--m)}.bars em{font-size:9px;font-style:normal}
+.tab{display:none}.tab.on{display:block}
+nav{position:fixed;left:10px;right:10px;bottom:calc(env(safe-area-inset-bottom) + 8px);display:flex;gap:4px;background:rgba(20,20,40,.92);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:6px;backdrop-filter:blur(12px)}
+nav button{flex:1;background:0;border:0;color:var(--m);padding:9px 2px;border-radius:12px;font-size:12px;font-weight:700}nav button.on{background:linear-gradient(90deg,rgba(0,229,255,.2),rgba(180,76,255,.25));color:#fff}
+details{border-bottom:1px solid rgba(255,255,255,.07);padding:6px 0;font-size:13px}summary{display:flex;gap:8px;cursor:pointer}summary span{color:var(--m);min-width:92px}pre{white-space:pre-wrap;font-size:11px;color:var(--m);margin:6px 0 0}
+.pill{display:inline-block;background:rgba(180,76,255,.2);border:1px solid var(--b);border-radius:20px;padding:4px 10px;margin:3px 3px 0 0;font-size:12px}
+#err{color:var(--r);margin-top:8px}
+</style></head><body>
+<div id="login" class="card" style="margin-top:12vh;text-align:center"><h1 style="font-size:40px;font-weight:900">TORN <span>HQ</span></h1><p class="m">Paste your Full Access API key</p><input id="key" placeholder="API key" autocomplete="off"><button class="btn" onclick="doLogin()">Connect</button><div id="err"></div></div>
+<div id="app" hidden>
+<header><div><div class="logo">TORN <span>HQ</span></div><div id="who" class="live">…</div></div><div style="text-align:right"><div id="cd" class="m"></div><button class="ghost" onclick="logout()">Log out</button></div></header>
+<section id="t-ov" class="tab on"><div id="ov"></div></section>
+<section id="t-ac" class="tab"><div id="ac"></div></section>
+<section id="t-lg" class="tab">
+<div class="card"><h2>Log Explorer</h2><input id="q" placeholder="Search logs (xanax, travel, bazaar…)" oninput="renderLogs()"><select id="cat" onchange="renderLogs()"></select>
+<button class="btn" onclick="pullLogs(5,true)">Load older</button> <button class="ghost" onclick="csv()">Export CSV</button><div id="lstat" class="m" style="margin-top:8px"></div></div>
+<div class="card"><h2>Events per day</h2><div id="cday"></div></div><div class="card"><h2>Activity by hour</h2><div id="chour"></div></div>
+<div class="card"><h2>Top actions</h2><div id="top"></div></div><div class="card"><h2>Entries (tap for raw data)</h2><div id="llist"></div></div></section>
+<section id="t-bk" class="tab"><div id="bk"></div></section>
+<nav><button class="on" onclick="go('ov',this)">Home</button><button onclick="go('ac',this)">Activity</button><button onclick="go('lg',this)">Logs</button><button onclick="go('bk',this)">Bank</button></nav>
 </div>
-
-<div class="card"><h2>Profile</h2><div id="profile">—</div></div>
-<div class="card"><h2>Net Worth</h2><div id="networth">—</div></div>
-<div class="card"><h2>Battle Stats</h2><div id="stats">—</div></div>
-<div class="card"><h2>Training Suggestion</h2><div id="train">—</div></div>
-<div class="card"><h2>Education</h2><div id="edu">—</div></div>
-<div class="card"><h2>Xanax &amp; Travel (recent log)</h2><div id="logs">—</div>
-  <div class="small">Shows matches from your most recent log entries.</div></div>
-
 <script>
-function saveKey(){
-  const key = document.getElementById('apikey').value.trim();
-  if(!key) return;
-  try { localStorage.setItem('torn_api_key', key); } catch(e) {}
-  loadAll();
-}
-
-window.onload = function(){
-  let saved = null;
-  try { saved = localStorage.getItem('torn_api_key'); } catch(e) {}
-  if(saved){
-    document.getElementById('apikey').value = saved;
-    loadAll();
-  }
-};
-
-async function tornGet(section, selections, extra=''){
-  const key = document.getElementById('apikey').value.trim();
-  const url = `https://api.torn.com/${section}/?selections=${selections}&key=${key}${extra}`;
-  const res = await fetch(url);
-  const data = await res.json();
-  if(data.error){ throw new Error(data.error.error); }
-  return data;
-}
-
-async function loadAll(){
-  document.getElementById('err').innerText = '';
-  try {
-    const d = await tornGet('user', 'profile,battlestats,networth,education');
-    renderProfile(d);
-    renderNetworth(d);
-    renderStats(d);
-    renderTrain(d);
-    renderEdu(d);
-  } catch(e){
-    document.getElementById('err').innerText = 'Error: ' + e.message;
-  }
-  loadLogs();
-}
-
-function renderProfile(d){
-  document.getElementById('profile').innerHTML = `
-    <div class="stat"><span>Name</span><span>${d.name} [${d.player_id}]</span></div>
-    <div class="stat"><span>Level</span><span>${d.level}</span></div>
-    <div class="stat"><span>Status</span><span>${d.status ? d.status.description : '—'}</span></div>`;
-}
-
-function renderNetworth(d){
-  if(!d.networth){ document.getElementById('networth').innerText = 'Needs a full-access key.'; return; }
-  let html = '';
-  for(const [k,v] of Object.entries(d.networth)){
-    if(typeof v === 'number'){
-      html += `<div class="stat"><span>${k}</span><span>$${v.toLocaleString()}</span></div>`;
-    }
-  }
-  document.getElementById('networth').innerHTML = html;
-}
-
-function renderStats(d){
-  if(d.strength === undefined){ document.getElementById('stats').innerText = 'Needs a full-access key.'; return; }
-  document.getElementById('stats').innerHTML = ['strength','defense','speed','dexterity'].map(s =>
-    `<div class="stat"><span>${s}</span><span>${Number(d[s]).toLocaleString()}</span></div>`).join('');
-}
-
-function renderTrain(d){
-  if(d.strength === undefined){ document.getElementById('train').innerText = '—'; return; }
-  const stats = { Strength:d.strength, Defense:d.defense, Speed:d.speed, Dexterity:d.dexterity };
-  const sorted = Object.entries(stats).sort((a,b)=>a[1]-b[1]);
-  document.getElementById('train').innerText =
-    `Lowest stat: ${sorted[0][0]} (${Number(sorted[0][1]).toLocaleString()}). Training it keeps your build balanced. If you're deliberately specializing, ignore this and stack your main stat.`;
-}
-
-function renderEdu(d){
-  const el = document.getElementById('edu');
-  const done = d.education_completed ? d.education_completed.length : 0;
-  if(d.education_current){
-    el.innerText = `Course in progress (ID ${d.education_current}), ${d.education_timeleft ? Math.round(d.education_timeleft/3600) + 'h left' : ''}. ${done} courses completed so far.`;
-  } else {
-    el.innerText = `No course running. ${done} completed. Start the next one in the Education tab so no time is wasted.`;
-  }
-}
-
-async function loadLogs(){
-  const el = document.getElementById('logs');
-  try {
-    const data = await tornGet('user', 'log');
-    const entries = Object.values(data.log || {})
-      .filter(e => /xanax|travel|flew|depart|arriv/i.test(JSON.stringify(e)))
-      .slice(0, 20);
-    el.innerHTML = entries.length
-      ? entries.map(e => `<div class="stat"><span>${new Date(e.timestamp*1000).toLocaleString()}</span><span>${e.title}</span></div>`).join('')
-      : 'No Xanax or travel entries in your latest logs.';
-  } catch(e){
-    el.innerText = 'Log error: ' + e.message + ' (the key needs log access)';
-  }
-}
-</script>
-</body>
-</html>
+const $=i=>document.getElementById(i),fmt=n=>Number(n).toLocaleString(),$$=n=>'$'+fmt(Math.round(n)),pad=n=>String(n).padStart(2,'0'),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let KEY='',D={},BANK=null,MER=null,LOGS=new Map(),eduEnd=0,cd=20,tk=0,loading=false;
+const TR={standard:['Standard ticket',1],airstrip:['Private airstrip (island)',.7],private:['Private jet',.5],business:['Business / first class',.3]};
+const DESTS=['South Africa','Mexico','Cayman Islands','Canada','Hawaii','United Kingdom','Argentina','Switzerland','Japan','China','UAE'];
+const dest=e=>{const s=(JSON.stringify(e.data||{})+JSON.stringify(e.params||{})).toLowerCase();return DESTS.find(d=>s.includes(d.toLowerCase()))||null};
+const lsg=k=>{try{return localStorage.getItem(k)}catch(e){return null}},lss=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
+async function api(sel,extra=''){const r=await fetch(`https://api.torn.com/user/?selections=${sel}&key=${KEY}${extra}`);const d=await r.json();if(d.error)throw new Error(d.error.error);return d}
+async function doLogin(k){KEY=(k||$('key').value).trim();if(!KEY)return;$('err').textContent='';
+try{await refresh(true);lss('tk',KEY);$('login').hidden=true;$('app').hidden=false;renderAct();pullLogs(15,false)}catch(e){$('err').textContent='Error: '+e.message}}
+function logout(){try{localStorage.removeItem('tk')}catch(e){}location.reload()}
+function go(t,b){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));$('t-'+t).classList.add('on');document.querySelectorAll('nav button').forEach(x=>x.classList.remove('on'));b.classList.add('on')}
+async function refresh(strict){try{D=await api('profile,battlestats,networth,education')}catch(e){if(strict)throw e;$('who').className='live off';$('who').textContent='● connection problem: '+e.message;return}
+$('who').className='live';$('who').innerHTML=`<i></i>LOGGED IN · ${esc(D.name)} [${D.player_id}]`;
+eduEnd=D.education_timeleft?Date.now()/1e3+D.education_timeleft:0;renderOv();
+try{BANK=(await api('money')).city_bank||null}catch(e){}
+if(!MER)try{MER=(await api('merits')).merits||null}catch(e){}
+renderBank()}
+function renderOv(){const d=D,st=['strength','defense','speed','dexterity'],v=st.map(s=>+d[s]||0),mx=Math.max(...v,1),low=st[v.indexOf(Math.min(...v))];
+const nw=d.networth||{},tot=nw.total,rest=Object.entries(nw).filter(([k,x])=>k!='total'&&typeof x=='number'&&x!=0).sort((a,b)=>b[1]-a[1]);
+const done=d.education_completed?d.education_completed.length:0;
+$('ov').innerHTML=`<div class="card"><div style="font-size:22px;font-weight:900">${esc(d.name)} <span class="m">Lv ${d.level}</span></div><div class="m">${esc(d.status?d.status.description:'')}</div></div>
+<div class="card"><h2>Education</h2>${d.education_current?`<div id="edu" class="timer">…</div><div class="m">Course ID ${d.education_current} · ${done} completed</div>`:`<div id="edu" class="timer" style="color:var(--r)">No course running</div><div class="m">${done} completed · start the next one!</div>`}</div>
+<div class="card"><h2>Net worth</h2>${tot!=null?`<div class="big">${$$(tot)}</div>`:'<div class="m">Needs a Full Access key</div>'}${rest.map(([k,x])=>`<div class="row"><span>${k}</span><span>${$$(x)}</span></div>`).join('')}</div>
+<div class="card"><h2>Battle stats</h2>${v[0]||v[1]?st.map((s,i)=>`<div class="row" style="border:0;padding-bottom:0"><span>${s}${s==low?' ⚡ train':''}</span><span>${fmt(v[i])}</span></div><div class="bar"><b style="width:${v[i]/mx*100}%"></b></div>`).join('')+`<div class="m">Lowest is <b>${low}</b>. Train it for balance, or ignore if you're specialising.</div>`:'<div class="m">Needs a Full Access key</div>'}</div>`}
+function renderAct(){const sel=lsg('tr')||'standard',t=TR[sel],one=Math.round(297*t[1]);
+const days=[0,1,2].map(i=>{const d=new Date();d.setDate(d.getDate()-i);return d.toDateString()}),names=['Today','Yesterday','2 days ago'];
+let anyDest=false;LOGS.forEach(e=>{if(/travel depart/i.test(e.title||'')&&dest(e))anyDest=true});
+const R=days.map(k=>{let x=0,f=0,sa=0,bu=0;LOGS.forEach(e=>{if(new Date(e.timestamp*1e3).toDateString()!=k)return;const t=e.title||'';if(/use xanax/i.test(t))x++;else if(/travel depart/i.test(t)){f++;if(dest(e)=='South Africa')sa++}else if(/abroad buy/i.test(t))bu++});return{x,f,sa,bu}});
+$('ac').innerHTML=`<div class="card"><h2>Travel method</h2><select onchange="lss('tr',this.value);renderAct()">${Object.entries(TR).map(([k,v])=>`<option value="${k}" ${k==sel?'selected':''}>${v[0]}</option>`).join('')}</select>
+<div class="row"><span>South Africa one-way ≈</span><span>${one} min</span></div><div class="row"><span>Round trip ≈</span><span>${one*2} min</span></div><div class="row"><span>Max round trips / 24h</span><span>${Math.floor(1440/(one*2))}</span></div><div class="m">Times are approximate (standard = 297 min, reduced by your method).</div></div>
+${R.map((r,i)=>`<div class="card"><h2>${names[i]}</h2><div class="grid"><div class="day"><div class="n x">${r.x}</div><div class="m">Xanax</div></div><div class="day"><div class="n f">${r.f}</div><div class="m">Flights</div></div><div class="day"><div class="n s">${anyDest?r.sa:'n/a'}</div><div class="m">To S. Africa</div></div></div><div class="m" style="margin-top:8px">Abroad purchases: ${r.bu}</div></div>`).join('')}
+${anyDest?'':'<div class="m">Your log entries don\'t include flight destinations, so the South Africa count can\'t be shown.</div>'}`}
+async function pullLogs(pages,older){if(loading)return;loading=true;$('lstat').textContent='Loading logs…';
+try{let to=older&&LOGS.size?Math.min(...[...LOGS.values()].map(e=>e.timestamp))-1:0;const c=new Date();c.setHours(0,0,0,0);const cut=c/1e3-172800;
+for(let i=0;i<pages;i++){const d=await api('log','&limit=100'+(to?'&to='+to:''));const a=Object.entries(d.log||{});if(!a.length)break;let old=1e12;a.forEach(([id,e])=>{e.id=id;LOGS.set(id,e);old=Math.min(old,e.timestamp)});to=old-1;if(!older&&old<cut)break}}
+catch(e){$('lstat').textContent='Log error: '+e.message+' (key needs log access)'}
+loading=false;renderLogs();renderAct()}
+function bars(v,l,c){const m=Math.max(...v,1);return `<div class="bars">${v.map((x,i)=>`<div><em>${x||''}</em><b style="height:${x/m*70}px;background:${c}"></b><small>${l[i]}</small></div>`).join('')}</div>`}
+function renderLogs(){const all=[...LOGS.values()].sort((a,b)=>b.timestamp-a.timestamp),cats=[...new Set(all.map(e=>e.category).filter(Boolean))].sort(),sel=$('cat'),cur=sel.value;
+sel.innerHTML='<option value="">All categories</option>'+cats.map(c=>`<option ${c==cur?'selected':''}>${esc(c)}</option>`).join('');
+const q=$('q').value.toLowerCase(),c=sel.value,f=all.filter(e=>(!c||e.category==c)&&(!q||((e.title||'')+JSON.stringify(e.data||{})).toLowerCase().includes(q)));
+$('lstat').textContent=`${f.length} of ${all.length} entries loaded`;
+const dk=[...new Set(f.map(e=>new Date(e.timestamp*1e3).toDateString()))].slice(0,7).reverse();
+$('cday').innerHTML=bars(dk.map(k=>f.filter(e=>new Date(e.timestamp*1e3).toDateString()==k).length),dk.map(k=>k.slice(4,10)),'linear-gradient(var(--a),var(--b))');
+const h=Array(24).fill(0);f.forEach(e=>h[new Date(e.timestamp*1e3).getHours()]++);
+$('chour').innerHTML=bars(h,h.map((_,i)=>i%3?'':i),'linear-gradient(var(--g),var(--a))');
+const tc={};f.forEach(e=>tc[e.title]=(tc[e.title]||0)+1);
+$('top').innerHTML=Object.entries(tc).sort((a,b)=>b[1]-a[1]).slice(0,8).map(([k,n])=>`<div class="row"><span>${esc(k)}</span><b>${n}</b></div>`).join('')||'<div class="m">No data yet</div>';
+$('llist').innerHTML=f.slice(0,150).map(e=>`<details><summary><span>${new Date(e.timestamp*1e3).toLocaleString([],{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}</span><b>${esc(e.title)}</b></summary><pre>${esc(JSON.stringify(e.data||{},null,1))}</pre></details>`).join('')}
+function csv(){const a=[...LOGS.values()].sort((x,y)=>y.timestamp-x.timestamp),q=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
+const u=URL.createObjectURL(new Blob([['time,category,title,data'].concat(a.map(e=>[new Date(e.timestamp*1e3).toISOString(),e.category,e.title,JSON.stringify(e.data||{})].map(q).join(','))).join('\n')],{type:'text/csv'}));const l=document.createElement('a');l.href=u;l.download='torn-logs.csv';l.click()}
+const ADV=[[/bank|interest/i,'Boosts every investment payout, so it grows with your daily income.'],[/addiction/i,'You take Xanax daily and use rehab, so this directly helps.'],[/drug|booster/i,'You rely on Xanax, so shorter drug cooldowns help.'],[/education/i,'You run courses constantly, so shorter courses finish more of them.'],[/medical|revive/i,'Cuts medical cooldowns, useful during faction wars.'],[/nerve/i,'More nerve means more crimes and OC readiness.']];
+function renderBank(){const b=BANK;let h='<div class="card"><h2>Bank investment</h2>';
+if(b&&b.amount){const p=b.profit??b.amount*b.interest_rate/100,dur=b.duration||1;h+=`<div class="big">${$$(b.amount)}</div><div class="m">invested${b.duration?' · '+b.duration+' days':''}${b.interest_rate?' · '+b.interest_rate+'%':''}</div>
+<div class="row"><span>Profit at payout</span><b class="s">${$$(p)}</b></div><div class="row"><span>Per day</span><span>${$$(p/dur)}</span></div><div class="row"><span>Per 30 days</span><span>${$$(p/dur*30)}</span></div>${b.until>1e9?`<div class="row"><span>Pays out</span><span>${new Date(b.until*1e3).toLocaleString()}</span></div>`:''}<div class="m">The rate Torn returns already includes your Bank Interest merit.</div>`}
+else h+='<div class="m">No active investment found. Use the calculator below.</div>';
+h+=`</div><div class="card"><h2>What-if calculator</h2><input id="wa" type="number" inputmode="decimal" placeholder="Amount" value="${b&&b.amount||''}" oninput="wif()"><input id="wr" type="number" inputmode="decimal" placeholder="Rate % for the period (from the bank page)" value="${b&&b.interest_rate||''}" oninput="wif()"><input id="wd" type="number" inputmode="decimal" placeholder="Period in days" value="${b&&b.duration||''}" oninput="wif()"><div id="wo" class="m">Enter the three numbers.</div></div>`;
+const m=MER&&typeof MER=='object'?Object.entries(MER).map(([k,v])=>[k,+(v&&v.level!==undefined?v.level:v)||0]):[];
+if(m.length){const spent=m.reduce((s,x)=>s+x[1],0),mx=Math.max(...m.map(x=>x[1]),1);
+h+=`<div class="card"><h2>Your merits · ${spent} levels bought</h2>${m.sort((a,b)=>b[1]-a[1]).map(([k,l])=>`<div class="row" style="border:0;padding-bottom:0"><span>${esc(k)}</span><span>${l}</span></div><div class="bar"><b style="width:${l/mx*100}%"></b></div>`).join('')}</div>`;
+const sug=ADV.map(([re,why])=>{const hit=m.find(x=>re.test(x[0]));return hit?{n:hit[0],l:hit[1],why}:null}).filter(Boolean).sort((a,b)=>a.l-b.l).slice(0,4);
+h+=`<div class="card"><h2>Suggested next merits</h2>${sug.length?sug.map(s=>`<div class="row"><span><b>${esc(s.n)}</b> <span class="m">(level ${s.l})</span><br><span class="m">${s.why}</span></span></div>`).join('')+'<div class="m" style="margin-top:6px">Ranked by your habits (Xanax, rehab, investing, education, wars), lowest level first.</div>':'<div class="m">No matching merits found in your data.</div>'}</div>`}
+else h+='<div class="card"><h2>Merits</h2><div class="m">Merit data not available with this key.</div></div>';
+$('bk').innerHTML=h;wif()}
+function wif(){const a=+$('wa')?.value,r=+$('wr')?.value,d=+$('wd')?.value;if(!$('wo'))return;$('wo').innerHTML=a&&r&&d?`Profit <b class="s">${$$(a*r/100)}</b> · ${$$(a*r/100/d)}/day · ${$$(a*r/100/d*30)}/30 days`:'Enter the three numbers.'}
+setInterval(()=>{if($('app').hidden)return;if(eduEnd&&$('edu')){const s=Math.max(0,Math.floor(eduEnd-Date.now()/1e3));$('edu').textContent=s?`${Math.floor(s/86400)}d ${pad(Math.floor(s%86400/3600))}h ${pad(Math.floor(s%3600/60))}m ${pad(s%60)}s`:'Course finished!'}
+cd--;$('cd').textContent='refresh in '+cd+'s';if(cd<=0){cd=20;tk++;refresh();if(tk%3==0)pullLogs(1,false)}},1000);
+window.onload=()=>{const k=lsg('tk');if(k){$('key').value=k;doLogin(k)}};
+</script></body></html>
