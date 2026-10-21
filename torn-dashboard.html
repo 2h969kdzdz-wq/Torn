@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Torn Dashboard</title>
+<style>
+  body { background:#111; color:#eee; font-family: -apple-system, sans-serif; padding:10px; }
+  .card { background:#1e1e1e; border-radius:10px; padding:12px; margin-bottom:12px; }
+  h1 { font-size:20px; }
+  h2 { margin:0 0 8px 0; font-size:16px; color:#4cafef; }
+  .stat { display:flex; justify-content:space-between; gap:10px; padding:4px 0; border-bottom:1px solid #333; font-size:14px; }
+  input { width:100%; box-sizing:border-box; padding:10px; border-radius:6px; border:none; margin-bottom:8px; font-size:16px; }
+  button { padding:10px 14px; border-radius:6px; border:none; background:#4cafef; color:#000; font-weight:bold; }
+  #err { color:#ff5555; margin-top:8px; }
+  .small { font-size:12px; color:#999; }
+</style>
+</head>
+<body>
+<h1>Torn Dashboard</h1>
+
+<div class="card">
+  <input id="apikey" type="text" placeholder="Paste your Torn API key">
+  <button onclick="saveKey()">Save &amp; Load</button>
+  <div id="err"></div>
+</div>
+
+<div class="card"><h2>Profile</h2><div id="profile">—</div></div>
+<div class="card"><h2>Net Worth</h2><div id="networth">—</div></div>
+<div class="card"><h2>Battle Stats</h2><div id="stats">—</div></div>
+<div class="card"><h2>Training Suggestion</h2><div id="train">—</div></div>
+<div class="card"><h2>Education</h2><div id="edu">—</div></div>
+<div class="card"><h2>Xanax &amp; Travel (recent log)</h2><div id="logs">—</div>
+  <div class="small">Shows matches from your most recent log entries.</div></div>
+
+<script>
+function saveKey(){
+  const key = document.getElementById('apikey').value.trim();
+  if(!key) return;
+  try { localStorage.setItem('torn_api_key', key); } catch(e) {}
+  loadAll();
+}
+
+window.onload = function(){
+  let saved = null;
+  try { saved = localStorage.getItem('torn_api_key'); } catch(e) {}
+  if(saved){
+    document.getElementById('apikey').value = saved;
+    loadAll();
+  }
+};
+
+async function tornGet(section, selections, extra=''){
+  const key = document.getElementById('apikey').value.trim();
+  const url = `https://api.torn.com/${section}/?selections=${selections}&key=${key}${extra}`;
+  const res = await fetch(url);
+  const data = await res.json();
+  if(data.error){ throw new Error(data.error.error); }
+  return data;
+}
+
+async function loadAll(){
+  document.getElementById('err').innerText = '';
+  try {
+    const d = await tornGet('user', 'profile,battlestats,networth,education');
+    renderProfile(d);
+    renderNetworth(d);
+    renderStats(d);
+    renderTrain(d);
+    renderEdu(d);
+  } catch(e){
+    document.getElementById('err').innerText = 'Error: ' + e.message;
+  }
+  loadLogs();
+}
+
+function renderProfile(d){
+  document.getElementById('profile').innerHTML = `
+    <div class="stat"><span>Name</span><span>${d.name} [${d.player_id}]</span></div>
+    <div class="stat"><span>Level</span><span>${d.level}</span></div>
+    <div class="stat"><span>Status</span><span>${d.status ? d.status.description : '—'}</span></div>`;
+}
+
+function renderNetworth(d){
+  if(!d.networth){ document.getElementById('networth').innerText = 'Needs a full-access key.'; return; }
+  let html = '';
+  for(const [k,v] of Object.entries(d.networth)){
+    if(typeof v === 'number'){
+      html += `<div class="stat"><span>${k}</span><span>$${v.toLocaleString()}</span></div>`;
+    }
+  }
+  document.getElementById('networth').innerHTML = html;
+}
+
+function renderStats(d){
+  if(d.strength === undefined){ document.getElementById('stats').innerText = 'Needs a full-access key.'; return; }
+  document.getElementById('stats').innerHTML = ['strength','defense','speed','dexterity'].map(s =>
+    `<div class="stat"><span>${s}</span><span>${Number(d[s]).toLocaleString()}</span></div>`).join('');
+}
+
+function renderTrain(d){
+  if(d.strength === undefined){ document.getElementById('train').innerText = '—'; return; }
+  const stats = { Strength:d.strength, Defense:d.defense, Speed:d.speed, Dexterity:d.dexterity };
+  const sorted = Object.entries(stats).sort((a,b)=>a[1]-b[1]);
+  document.getElementById('train').innerText =
+    `Lowest stat: ${sorted[0][0]} (${Number(sorted[0][1]).toLocaleString()}). Training it keeps your build balanced. If you're deliberately specializing, ignore this and stack your main stat.`;
+}
+
+function renderEdu(d){
+  const el = document.getElementById('edu');
+  const done = d.education_completed ? d.education_completed.length : 0;
+  if(d.education_current){
+    el.innerText = `Course in progress (ID ${d.education_current}), ${d.education_timeleft ? Math.round(d.education_timeleft/3600) + 'h left' : ''}. ${done} courses completed so far.`;
+  } else {
+    el.innerText = `No course running. ${done} completed. Start the next one in the Education tab so no time is wasted.`;
+  }
+}
+
+async function loadLogs(){
+  const el = document.getElementById('logs');
+  try {
+    const data = await tornGet('user', 'log');
+    const entries = Object.values(data.log || {})
+      .filter(e => /xanax|travel|flew|depart|arriv/i.test(JSON.stringify(e)))
+      .slice(0, 20);
+    el.innerHTML = entries.length
+      ? entries.map(e => `<div class="stat"><span>${new Date(e.timestamp*1000).toLocaleString()}</span><span>${e.title}</span></div>`).join('')
+      : 'No Xanax or travel entries in your latest logs.';
+  } catch(e){
+    el.innerText = 'Log error: ' + e.message + ' (the key needs log access)';
+  }
+}
+</script>
+</body>
+</html>
