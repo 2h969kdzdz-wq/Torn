@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Torn Dashboard</title>
+<style>
+  body { background:#111; color:#eee; font-family: sans-serif; padding:10px; }
+  .card { background:#1e1e1e; border-radius:10px; padding:12px; margin-bottom:12px; }
+  h2 { margin:0 0 8px 0; font-size:16px; color:#4cafef; }
+  .stat { display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid #333; }
+  input { width:100%; padding:8px; border-radius:6px; border:none; margin-bottom:8px; }
+  button { padding:8px 14px; border-radius:6px; border:none; background:#4cafef; color:#000; font-weight:bold; }
+  #err { color:#ff5555; }
+</style>
+</head>
+<body>
+<h1>Torn Dashboard</h1>
+<div class="card">
+  <input id="apikey" type="text" placeholder="Enter Torn API Key">
+  <button onclick="saveKey()">Save & Load</button>
+  <div id="err"></div>
+</div>
+
+<div class="card" id="profileCard"><h2>Profile</h2><div id="profile">—</div></div>
+<div class="card" id="networthCard"><h2>Net Worth</h2><div id="networth">—</div></div>
+<div class="card" id="statsCard"><h2>Battle Stats</h2><div id="stats">—</div></div>
+<div class="card" id="trainCard"><h2>Training Suggestion</h2><div id="train">—</div></div>
+<div class="card" id="eduCard"><h2>Education Suggestion</h2><div id="edu">—</div></div>
+<div class="card" id="logCard"><h2>Recent Xanax & Travel Log</h2><div id="logs">—</div></div>
+
+<script>
+function saveKey(){
+  const key = document.getElementById('apikey').value.trim();
+  if(!key){ return; }
+  localStorage.setItem('torn_api_key', key);
+  loadAll(key);
+}
+
+window.onload = function(){
+  const saved = localStorage.getItem('torn_api_key');
+  if(saved){
+    document.getElementById('apikey').value = saved;
+    loadAll(saved);
+  }
+};
+
+async function tornGet(section, selections, extra=''){
+  const key = localStorage.getItem('torn_api_key');
+  const url = `https://api.torn.com/${section}/?selections=${selections}&key=${key}${extra}`;
+  const res = await fetch(url);
+  const data = await res.json();
+  if(data.error){ throw new Error(data.error.error); }
+  return data;
+}
+
+async function loadAll(){
+  document.getElementById('err').innerText = '';
+  try {
+    const basic = await tornGet('user', 'profile,battlestats,networth,education');
+    renderProfile(basic);
+    renderNetworth(basic);
+    renderStats(basic);
+    renderTrainSuggestion(basic);
+    renderEduSuggestion(basic);
+    await loadLogs();
+  } catch(e){
+    document.getElementById('err').innerText = 'Error: ' + e.message;
+  }
+}
+
+function renderProfile(d){
+  document.getElementById('profile').innerHTML = `
+    <div class="stat"><span>Name</span><span>${d.name} [${d.player_id}]</span></div>
+    <div class="stat"><span>Level</span><span>${d.level}</span></div>
+    <div class="stat"><span>Energy</span><span>${d.energy ? d.energy.current+'/'+d.energy.maximum : '—'}</span></div>
+    <div class="stat"><span>Status</span><span>${d.status ? d.status.description : '—'}</span></div>
+  `;
+}
+
+function renderNetworth(d){
+  if(!d.networth){ document.getElementById('networth').innerText = 'Not available with this key level.'; return; }
+  let html = '';
+  for(const [k,v] of Object.entries(d.networth)){
+    html += `<div class="stat"><span>${k}</span><span>$${Number(v).toLocaleString()}</span></div>`;
+  }
+  document.getElementById('networth').innerHTML = html;
+}
+
+function renderStats(d){
+  if(!d.strength){ document.getElementById('stats').innerText = 'Not available with this key level.'; return; }
+  document.getElementById('stats').innerHTML = `
+    <div class="stat"><span>Strength</span><span>${Number(d.strength).toLocaleString()}</span></div>
+    <div class="stat"><span>Defense</span><span>${Number(d.defense).toLocaleString()}</span></div>
+    <div class="stat"><span>Speed</span><span>${Number(d.speed).toLocaleString()}</span></div>
+    <div class="stat"><span>Dexterity</span><span>${Number(d.dexterity).toLocaleString()}</span></div>
+  `;
+}
+
+function renderTrainSuggestion(d){
+  if(!d.strength){ document.getElementById('train').innerText = '—'; return; }
+  const stats = { Strength: d.strength, Defense: d.defense, Speed: d.speed, Dexterity: d.dexterity };
+  const lowest = Object.entries(stats).sort((a,b)=>a[1]-b[1])[0];
+  document.getElementById('train').innerText =
+    `Your lowest stat is ${lowest[0]} (${Number(lowest[1]).toLocaleString()}). Common strategy is to train your lowest stat to keep your build balanced, unless you're deliberately specializing.`;
+}
+
+function renderEduSuggestion(d){
+  const el = document.getElementById('edu');
+  if(!d.education_current){
+    el.innerText = 'No course currently in progress. Consider queuing one from the Education tab — prioritize courses that boost stat gain or the job stats relevant to your faction role.';
+  } else {
+    el.innerText = `Currently enrolled in course ID ${d.education_current}. Suggestion logic here is general guidance, not live-fetched — check the in-game Education tree for the best next step toward your goals.`;
+  }
+}
+
+async function loadLogs(){
+  try {
+    const data = await tornGet('user', 'log', '&log=3000,3001');
+    let html = '';
+    if(data.log){
+      const entries = Object.values(data.log).slice(0,15);
+      for(const e of entries){
+        const date = new Date(e.timestamp*1000).toLocaleString();
+        html += `<div class="stat"><span>${date}</span><span>${e.title}</span></div>`;
+      }
+    }
+    document.getElementById('logs').innerHTML = html || 'No recent entries found.';
+  } catch(e){
+    document.getElementById('logs').innerText = 'Log error: ' + e.message;
+  }
+}
+</script>
+</body>
+</html>
